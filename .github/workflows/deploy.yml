@@ -1,0 +1,28 @@
+name: Deploy Frontend
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker build -t m971119/docker-react-udemy -f Dockerfile.dev .
+      - run: docker run -e CI=true m971119/docker-react-udemy npm test
+
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: 'docker-react-udemy'
+          environment_name: 'Dockerreactudemy-env'
+          existing_bucket_name: 'elasticbeanstalk-ap-northeast-1-991759158532'
+          region: ap-northeast-1
+          version_label: ${{ github.sha }}
+          deployment_package: deploy.zip
