@@ -11,11 +11,11 @@ script:
 
 deploy:
   provider: elasticbeanstalk
-  region: "ap-northeast-1"
-  app: "docker-react-udemy"
-  env: "Dockerreactudemy-env"
-  bucket_name: "elasticbeanstalk-ap-northeast-1-991759158532"
-  bucket_path: "docker-react-udemy"
+  region: 'ap-northeast-1'
+  app: 'docker-react-udemy'
+  env: 'Dockerreactudemy-env'
+  bucket_name: 'elasticbeanstalk-ap-northeast-1-991759158532'
+  bucket_path: 'docker-react-udemy'
   on:
     branch: master
   access_key_id: $AWS_ACCESS_KEY
