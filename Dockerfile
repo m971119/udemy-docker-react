@@ -9,5 +9,6 @@ RUN npm run build
 
 # ----- run phase -----
 FROM nginx
+EXPOSE 80
 # Ref: docker hub nginx image - hosting static pages
 COPY --from=builder /app/build /usr/share/nginx/html
